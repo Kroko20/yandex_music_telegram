@@ -31,7 +31,12 @@ def get_music():
         title = last_track.title
         
         print(f"Сейчас играет: {artists} - {title} (Yandex.Music)")
-        app.update_profile(bio=f"Сейчас играет: {artists} - {title} (Yandex.Music)") # меняем статус
+        try:
+            app.update_profile(bio=f"Сейчас играет: {artists} - {title} (Yandex.Music)") # меняем статус
+        except:
+            print("Произошла ошибка, возможно название было слишком длинным, название укорочено.")
+            app.update_profile(bio=f"Сейчас играет: {artists} - {title}") # меняем статус
+
         time.sleep(10)
 
 if __name__ == "__main__":
