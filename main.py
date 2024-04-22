@@ -1,8 +1,11 @@
+#!D:\projects\python_projects\yandex_music_telegram\venv\Scripts\python.exe
+
 import yandex_music
 from config import token, api_id, api_hash
 import time
 import sys
 from pyrogram import Client
+import traceback
 
 try:
     client = yandex_music.Client(token).init() # подключаемся к апи яндекс музыки
@@ -49,4 +52,11 @@ if __name__ == "__main__":
         else:
             app.update_profile(bio=bio.bio)
         print("Работа остановлена, старый статус восстановлен")
+        exit = False
+    except Exception as ex:
+        if bio.bio == None:
+            pass
+        else:
+            app.update_profile(bio=bio.bio)
+        print("Произошла ошибка, работа завершена, старый статус восстановлен: " + traceback.format_exc())
         exit = False
