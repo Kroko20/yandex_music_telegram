@@ -2,3 +2,4 @@ venv
 __pycache__
 telegram.session
 telegram.session-journal
+config.py
