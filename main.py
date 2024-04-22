@@ -1,12 +1,11 @@
 import yandex_music
 from config import token, api_id, api_hash
-from threading import Thread
 import time
 import sys
 from pyrogram import Client
 
 try:
-    client = yandex_music.Client(token).init()
+    client = yandex_music.Client(token).init() # подключаемся к апи яндекс музыки
 except:
     print("Произошла ошибка подключения к API, проверьте токен на валидность.")
     time.sleep(10)
@@ -14,10 +13,10 @@ except:
 
 exit = True
 
-app = Client("telegram", api_id, api_hash)
+app = Client("telegram", api_id, api_hash) # подключаемся к телеге
 app.start()
 
-bio = app.get_chat("me")
+bio = app.get_chat("me") # получаем статус, для того чтобы потом его восстановить
 
 def get_music():
     while True:
@@ -32,15 +31,12 @@ def get_music():
         title = last_track.title
         
         print(f"Сейчас играет: {artists} - {title} (Yandex.Music)")
-        try:
-            app.update_profile(bio=f"Сейчас играет: {artists} - {title} (Yandex.Music)")
-        except socket.error as e:
-            pass
+        app.update_profile(bio=f"Сейчас играет: {artists} - {title} (Yandex.Music)") # меняем статус
         time.sleep(10)
 
 if __name__ == "__main__":
     try:
-        while True:
+        while exit:
             get_music()
     except KeyboardInterrupt:
         if bio.bio == None:
@@ -48,4 +44,4 @@ if __name__ == "__main__":
         else:
             app.update_profile(bio=bio.bio)
         print("Работа остановлена, старый статус восстановлен")
-        true = False
+        exit = False
